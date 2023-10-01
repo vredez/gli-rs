@@ -34,6 +34,23 @@ impl GLConverter {
     }
 }
 
+macro_rules! impl_conv_u32 {
+    { $type:ty } => {
+        impl From<$type> for u32 {
+            fn from(value: $type) -> Self {
+                value.0
+            }
+        }
+
+        impl From<u32> for $type {
+            fn from(value: u32) -> Self {
+                Self(value)
+            }
+        }
+    };
+}
+
+
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 #[repr(transparent)]
 pub struct GLProfile(pub(crate) gli::gl_profile);
@@ -49,6 +66,7 @@ impl GLProfile {
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 #[repr(transparent)]
 pub struct GLTarget(pub(crate) gli::gl_target);
+impl_conv_u32! { GLProfile }
 
 impl GLTarget {
     pub const TARGET_1D         : GLTarget = GLTarget(gli::gl_target_TARGET_1D);
@@ -65,6 +83,7 @@ impl GLTarget {
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 #[repr(transparent)]
 pub struct GLInternalFmt(pub(crate) gli::gl_internal_format);
+impl_conv_u32! { GLInternalFmt }
 
 impl GLInternalFmt {
     pub const RGB_UNORM                      : GLInternalFmt = GLInternalFmt(gli::gl_internal_format_INTERNAL_RGB_UNORM);
@@ -254,6 +273,7 @@ impl GLInternalFmt {
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 #[repr(transparent)]
 pub struct GLExternalFmt(pub(crate) gli::gl_external_format);
+impl_conv_u32! { GLExternalFmt }
 
 impl GLExternalFmt {
     pub const NONE            : GLExternalFmt = GLExternalFmt(gli::gl_external_format_EXTERNAL_NONE);
@@ -282,6 +302,7 @@ impl GLExternalFmt {
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 #[repr(transparent)]
 pub struct GLTypeFmt(pub(crate) gli::gl_type_format);
+impl_conv_u32! { GLTypeFmt }
 
 impl GLTypeFmt {
     pub const NONE                : GLTypeFmt = GLTypeFmt(gli::gl_type_format_TYPE_NONE);
@@ -318,6 +339,7 @@ impl GLTypeFmt {
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 #[repr(transparent)]
 pub struct GLSwizzle(pub(crate) gli::gl_swizzle);
+impl_conv_u32! { GLSwizzle }
 
 impl GLSwizzle {
     pub const RED   : GLSwizzle = GLSwizzle(gli::gl_swizzle_SWIZZLE_RED);
