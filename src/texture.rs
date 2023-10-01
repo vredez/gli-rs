@@ -61,6 +61,10 @@ pub trait GliTexture: inner::TextureAccessible + Sized + PartialEq + Eq {
         self.raw_texture_mut().Swizzles = gli::swizzles(swizzles);
     }
 
+    fn swizzles(&self) -> &Swizzles {
+        &self.raw_texture().Swizzles.0
+    }
+
     /// Return the base face of the texture instance, effectively a memory offset in the actual texture storage_type
     /// to identify where to start reading the faces.
     fn base_face(&self) -> usize {
